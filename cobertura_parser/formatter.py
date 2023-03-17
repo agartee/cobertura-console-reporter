@@ -1,9 +1,10 @@
 from typing import Iterator
+from colorama import Fore, Style
 
 from cobertura_parser.coverage_item import CoverageItem
 
 
-def format_coverage_items(coverage_items: Iterator[CoverageItem]):
+def format_coverage_items(coverage_items: Iterator[CoverageItem], colorize:bool=False):
     class_name_width = max(len(ci.name) for ci in coverage_items)
     
     header_names = [
@@ -17,10 +18,17 @@ def format_coverage_items(coverage_items: Iterator[CoverageItem]):
     header_lengths = [len(name) for name in header_names]
     header_lengths[0] = class_name_width
 
-    header_formats = [f"{{:<{header_lengths[i]}}}" 
-                      if i == 0 else f"{{:>{header_lengths[i]}}}" 
+    reset_color = Style.RESET_ALL if colorize == True else ""
+
+    header_formats = [f"{{:<{header_lengths[i]}}}" if i == 0 
+                      else f"{{:>{header_lengths[i]}}}" 
                       for i in range(len(header_names))]
-    row_format = "  |  ".join(header_formats)
+    header_format = "  |  ".join(header_formats)
+
+    row_formats = [f"{{color}}{{:<{header_lengths[i]}}}{reset_color}" if i == 0 
+                   else f"{{color}}{{:>{header_lengths[i]}}}{reset_color}" 
+                   for i in range(len(header_names))]
+    row_format = "  |  ".join(row_formats)
 
     separator_row_parts = [f"{'-' * (header_lengths[0] + 2)}"]
     separator_row_parts.extend(
@@ -28,7 +36,7 @@ def format_coverage_items(coverage_items: Iterator[CoverageItem]):
     separator_row = '|'.join(separator_row_parts)
 
     result = f"{separator_row}\n"
-    result += f"{row_format.format(*header_names)}\n"
+    result += f"{header_format.format(*header_names)}\n"
     result += f"{separator_row}\n"
 
     for ci in coverage_items:
@@ -40,7 +48,8 @@ def format_coverage_items(coverage_items: Iterator[CoverageItem]):
             ci.covered_branches
         ]
         
-        result += f"{row_format.format(*ordered_column_values)}\n"
+        color = Fore.GREEN if colorize == True else ""
+        result += f"{row_format.format(color=color, *ordered_column_values)}\n"
     
     result += f"{separator_row}\n"
 

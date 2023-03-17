@@ -20,6 +20,6 @@ def test_format_coverage_items_returns_formatted_string():
         -----------------------------------------|-------------------|-----------------|------------|--------------------
         '''
 
-    result = format_coverage_items(items)
+    result = format_coverage_items(items, colorize=False)
 
     assert result == textwrap.dedent(expected)

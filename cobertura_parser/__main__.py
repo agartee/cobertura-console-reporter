@@ -20,4 +20,4 @@ if __name__ == "__main__":
 
 
     coverage_items = parser.parse(coverage_file_path)
-    print(formatter.format_coverage_items(coverage_items))
+    print(formatter.format_coverage_items(coverage_items, colorize=True))

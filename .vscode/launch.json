@@ -5,12 +5,16 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "Python: Current File",
+            "name": "Python: Module",
             "type": "python",
             "request": "launch",
-            "program": "${file}",
+            "module": "cobertura_parser",
             "console": "integratedTerminal",
-            "justMyCode": true
+            "purpose": ["debug-in-terminal"],
+            "justMyCode": true,
+            "args": [
+                "C:\\Dev\\commissioner-api\\.test-coverage\\60128d30-cb89-4564-a979-47855c8c2cd4\\coverage.cobertura.xml"
+            ]
         }
     ]
 }
