@@ -1,5 +1,5 @@
 import xml.etree.ElementTree as ET
-from cobertura_parser.coverage_item import CoverageItem
+from cobertura_reporter.coverage_item import CoverageItem
 from typing import Iterator
 import re
 

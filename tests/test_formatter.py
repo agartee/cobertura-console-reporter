@@ -1,7 +1,7 @@
 import textwrap
 
-from cobertura_parser.coverage_item import CoverageItem
-from cobertura_parser.formatter import format_coverage_items
+from cobertura_reporter.coverage_item import CoverageItem
+from cobertura_reporter.formatter import format_coverage_items
 
 
 

@@ -1,4 +1,4 @@
-from cobertura_parser import parser
+from cobertura_reporter import parser
 
 
 def test_parse_returns_correct_number_of_results():
