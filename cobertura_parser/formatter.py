@@ -19,7 +19,7 @@ def format_coverage_items(coverage_items: Iterator[CoverageItem]):
     result += f"{separator}\n"
 
     for ci in coverage_items:
-        result += f"{row_format.format(ci.name, ci.covered_lines, ci.covered_branches, ci.branches, ci.coverable_lines)}\n"
+        result += f"{row_format.format(ci.name, ci.coverable_lines, ci.covered_lines, ci.branches, ci.covered_branches)}\n"
     
     result += f"{separator}\n"
 

@@ -15,8 +15,8 @@ def test_format_coverage_items_returns_formatted_string():
         -----------------------------------------|-------------------|-----------------|------------|--------------------
         Class Name                               |  Lines Coverable  |  Lines Covered  |  Branches  |  Branches Covered
         -----------------------------------------|-------------------|-----------------|------------|--------------------
-        SampleApp.Domain.Services.FirstService   |               65  |              6  |        12  |               100
-        SampleApp.Domain.Services.SecondService  |               65  |              6  |        12  |               100
+        SampleApp.Domain.Services.FirstService   |              100  |             65  |        12  |                 6
+        SampleApp.Domain.Services.SecondService  |              100  |             65  |        12  |                 6
         -----------------------------------------|-------------------|-----------------|------------|--------------------
         '''
 
