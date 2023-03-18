@@ -1,11 +1,14 @@
+import itertools
 from typing import Iterator
+
 from colorama import Fore, Style
 
 from cobertura_reporter.coverage_item import CoverageItem
 
 
 def format_coverage_items(coverage_items: Iterator[CoverageItem], colorize:bool=False):
-    class_name_width = max(len(ci.name) for ci in coverage_items)
+    class_name_width = max([len(ci.class_name) for ci in coverage_items] +
+                           [len(ci.class_namespace) for ci in coverage_items])
     
     header_names = [
         "Class Name", 
@@ -39,17 +42,33 @@ def format_coverage_items(coverage_items: Iterator[CoverageItem], colorize:bool=
     result += f"{header_format.format(*header_names)}\n"
     result += f"{separator_row}\n"
 
-    for ci in coverage_items:
-        ordered_column_values = [
-            ci.name, 
-            ci.coverable_lines, 
-            ci.covered_lines, 
-            ci.branches, 
-            ci.covered_branches
+    sorted_items = sorted(coverage_items, key=lambda x: x.class_namespace)
+    grouped_items = itertools.groupby(sorted_items, key=lambda x: x.class_namespace)
+
+    for key, group in grouped_items:
+        items = list(group)
+        ordered_group_column_values = [
+            key, 
+            sum(item.coverable_lines for item in items), 
+            sum(item.covered_lines for item in items), 
+            sum(item.branches for item in items), 
+            sum(item.covered_branches for item in items)
         ]
-        
+
         color = Fore.GREEN if colorize == True else ""
-        result += f"{row_format.format(color=color, *ordered_column_values)}\n"
+        result += f"{row_format.format(color=color, *ordered_group_column_values)}\n"
+
+        for item in items:
+            ordered_column_values = [
+                "  " + item.class_name, 
+                item.coverable_lines, 
+                item.covered_lines, 
+                item.branches, 
+                item.covered_branches
+            ]
+            
+            color = Fore.GREEN if colorize == True else ""
+            result += f"{row_format.format(color=color, *ordered_column_values)}\n"
     
     result += f"{separator_row}\n"
 
