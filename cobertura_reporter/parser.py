@@ -4,12 +4,15 @@ from typing import Iterator
 import re
 
 
-def parse(file_path) -> Iterator[CoverageItem]:
+def parse(file_path:str, package_name:str = None) -> Iterator[CoverageItem]:
     tree = ET.parse(file_path)
     root = tree.getroot()
 
     results = []
     for package in root.findall(".//package"):
+        if package_name != None and package.get("name") != package_name:
+            continue
+
         for classes in package.findall("classes"):
             for cls in classes.findall("class"):
                 class_name = cls.get("name")
