@@ -10,6 +10,10 @@ def test_parse_with_multi_package_file_returns_correct_number_of_results():
                            "SampleApp.Domain")
     assert len(results) == 1
 
+def test_parse_with_multiple_class_definitions_for_class_returns_correct_number_of_results():
+    results = parser.parse("sample_data/coverage.cobertura.split-classes.xml")
+    assert len(results) == 1
+
 def test_parse_return_results_with_class_name():
     results = parser.parse("sample_data/coverage.cobertura.single-package.xml")
         
@@ -52,3 +56,4 @@ def test_parse_return_results_with_covered_branches():
         r.covered_branches for r in results 
         if r.name == 'SampleApp.Domain.Services.SomeService'
         ])) == 9
+

@@ -19,7 +19,7 @@ def format_coverage_items(coverage_items: Iterator[CoverageItem], colorize:bool=
     ]
 
     header_lengths = [len(name) for name in header_names]
-    header_lengths[0] = class_name_width
+    header_lengths[0] = max([class_name_width, len(header_names[0])])
 
     reset_color = Style.RESET_ALL if colorize == True else ""
 
@@ -47,20 +47,24 @@ def format_coverage_items(coverage_items: Iterator[CoverageItem], colorize:bool=
 
     for key, group in grouped_items:
         items = list(group)
-        ordered_group_column_values = [
-            key, 
-            sum(item.coverable_lines for item in items), 
-            sum(item.covered_lines for item in items), 
-            sum(item.branches for item in items), 
-            sum(item.covered_branches for item in items)
-        ]
 
-        color = Fore.GREEN if colorize == True else ""
-        result += f"{row_format.format(color=color, *ordered_group_column_values)}\n"
+        if key != "":
+            ordered_group_column_values = [
+                key, 
+                sum(item.coverable_lines for item in items), 
+                sum(item.covered_lines for item in items), 
+                sum(item.branches for item in items), 
+                sum(item.covered_branches for item in items)
+            ]
+
+            color = Fore.GREEN if colorize == True else ""
+            result += f"{row_format.format(color=color, *ordered_group_column_values)}\n"
 
         for item in items:
+            indent = "  " if key != "" else ""
+
             ordered_column_values = [
-                "  " + item.class_name, 
+                indent + item.class_name,
                 item.coverable_lines, 
                 item.covered_lines, 
                 item.branches, 
