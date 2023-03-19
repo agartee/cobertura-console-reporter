@@ -26,3 +26,12 @@ These scripts are aimed to normalize script patterns across projects and platfor
 | `./scripts/bootstrap.{ps1, sh}` | Checks if `Python` is installed at the minimum version.<br>Creates and activates a `Python` virtual environment.<br>Installs `Python` dependencies from the `requirements` files. |
 | `./scripts/setup.{ps1, sh}` | Deletes the existing `Python` virtual environment if it exists and runs `bootstrap`. |
 | `./scripts/test.{ps1, sh}` | Executes unit tests. |
+
+## Troubleshooting
+
+When running the `build.sh` script on Linux using `pyenv` to manage Python versions, you 
+may need to install Python enabling shared libraries:
+
+```bash
+env PYTHON_CONFIGURE_OPTS="--enable-shared" pyenv install 3.9.9
+```
