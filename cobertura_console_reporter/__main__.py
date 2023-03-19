@@ -4,10 +4,7 @@ import sys
 from cobertura_console_reporter import parser
 from cobertura_console_reporter import formatter
 
-
-if __name__ == "__main__":
-    print(sys.argv)
-
+def main():
     if len(sys.argv) < 2 or len(sys.argv) > 3:
         print("Usage: python -m cobertura_console_reporter <path_to_coverage_cobertura_xml_file> [package_name]")
         sys.exit(1)
@@ -22,3 +19,6 @@ if __name__ == "__main__":
     formatted_result = formatter.format_coverage_items(coverage_items, colorize=True)
 
     print(formatted_result)
+
+if __name__ == "__main__":
+    main()
