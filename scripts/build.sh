@@ -1,1 +1,1 @@
-pyinstaller reporter.py --name ccr --onefile
+pyinstaller ccr.py --name ccr --onefile
