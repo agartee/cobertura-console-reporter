@@ -23,6 +23,3 @@ class CoverageItem(object):
         
         namespace, _ = self.name.rsplit(".", 1)
         return namespace
-
-    def __str__(self):
-        return f"CoverageItem: {self.name}"
