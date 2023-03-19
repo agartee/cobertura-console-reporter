@@ -1,15 +1,15 @@
 import os
 import sys
 
-from cobertura_reporter import parser
-from cobertura_reporter import formatter
+from cobertura_console_reporter import parser
+from cobertura_console_reporter import formatter
 
 
 if __name__ == "__main__":
     print(sys.argv)
 
     if len(sys.argv) < 2 or len(sys.argv) > 3:
-        print("Usage: python -m cobertura_reporter <path_to_coverage_cobertura_xml_file> [package_name]")
+        print("Usage: python -m cobertura_console_reporter <path_to_coverage_cobertura_xml_file> [package_name]")
         sys.exit(1)
 
     coverage_file_path = sys.argv[1]

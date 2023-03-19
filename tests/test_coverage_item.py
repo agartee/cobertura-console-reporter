@@ -1,4 +1,4 @@
-from cobertura_reporter.coverage_item import CoverageItem
+from cobertura_console_reporter.coverage_item import CoverageItem
 
 
 def test_get_class_name_when_name_contains_period_returns_expected_result():

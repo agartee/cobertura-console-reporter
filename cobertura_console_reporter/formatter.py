@@ -3,7 +3,7 @@ from typing import Iterator
 
 from colorama import Fore, Style
 
-from cobertura_reporter.coverage_item import CoverageItem
+from cobertura_console_reporter.coverage_item import CoverageItem
 
 
 def format_coverage_items(coverage_items: Iterator[CoverageItem], colorize:bool=False):

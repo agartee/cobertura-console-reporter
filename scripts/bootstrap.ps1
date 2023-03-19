@@ -52,8 +52,3 @@ python -m pip install --upgrade pip 2>&1 | Out-Null
 pip install -r "$($rootDir)\requirements-dev.txt" 2>&1 | Out-Null
 
 Write-Host "Python development dependencies installed." -ForegroundColor Green
-
-# **************************************************************************************
-# Set Local Environment Variables
-# **************************************************************************************
-$env:SETTING1 = "value1"

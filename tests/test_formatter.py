@@ -1,7 +1,7 @@
 import textwrap
 
-from cobertura_reporter.coverage_item import CoverageItem
-from cobertura_reporter.formatter import format_coverage_items
+from cobertura_console_reporter.coverage_item import CoverageItem
+from cobertura_console_reporter.formatter import format_coverage_items
 
 
 def test_format_coverage_items_returns_formatted_string():

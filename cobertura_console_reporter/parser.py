@@ -2,7 +2,7 @@ import xml.etree.ElementTree as ET
 from typing import List
 import re
 
-from cobertura_reporter.coverage_item import CoverageItem
+from cobertura_console_reporter.coverage_item import CoverageItem
 
 
 def parse(file_path:str, package_name:str = None) -> List[CoverageItem]:
