@@ -1,12 +1,18 @@
+"""Application entrypoint"""
 import os
 import sys
 
 from cobertura_console_reporter import parser
 from cobertura_console_reporter import formatter
 
+
 def main():
+    """Application entry function"""
     if len(sys.argv) < 2 or len(sys.argv) > 3:
-        print("Usage: python -m cobertura_console_reporter <path_to_coverage_cobertura_xml_file> [package_name]")
+        print(
+            "Usage: python -m cobertura_console_reporter "
+            "<path_to_coverage_cobertura_xml_file> [package_name]"
+        )
         sys.exit(1)
 
     coverage_file_path = sys.argv[1]
@@ -19,6 +25,7 @@ def main():
     formatted_result = formatter.format_coverage_items(coverage_items, colorize=True)
 
     print(formatted_result)
+
 
 if __name__ == "__main__":
     main()

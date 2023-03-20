@@ -1,3 +1,5 @@
+"""Contains parsing functions for coverage.cobertura.xml files."""
+
 import xml.etree.ElementTree as ET
 from typing import List
 import re
@@ -5,14 +7,23 @@ import re
 from cobertura_console_reporter.coverage_item import CoverageItem
 
 
-def parse(file_path:str, package_name:str = None) -> List[CoverageItem]:
+def parse(file_path: str, package_name: str = None) -> List[CoverageItem]:
+    """Parses a target coverage.cobertura.xml file and returns a list of objects.
+
+    Args:
+        file_path (str): path to the coverage.cobertura.xml file
+        package_name (str, optional): Filters output by package name. Defaults to None.
+
+    Returns:
+        List[CoverageItem]: List of objects representing test-covered .NET classes.
+    """
     tree = ET.parse(file_path)
     root = tree.getroot()
 
-    results :List[CoverageItem] = []
-    
+    results: List[CoverageItem] = []
+
     for package in root.findall(".//package"):
-        if package_name != None and package.get("name") != package_name:
+        if package_name is not None and package.get("name") != package_name:
             continue
 
         for classes in package.findall("classes"):
@@ -20,9 +31,9 @@ def parse(file_path:str, package_name:str = None) -> List[CoverageItem]:
                 coverage_item = _create_coverage_item(cls)
 
                 existing = next(
-                    (r for r in results if r.name == coverage_item.name), 
-                    None)
-                
+                    (r for r in results if r.name == coverage_item.name), None
+                )
+
                 if existing:
                     _merge_coverage_items(existing, coverage_item)
                     continue
@@ -31,7 +42,8 @@ def parse(file_path:str, package_name:str = None) -> List[CoverageItem]:
 
     return results
 
-def _split_conditional_coverage(input_string) -> tuple[int,int]:
+
+def _split_conditional_coverage(input_string) -> tuple[int, int]:
     pattern = r"(\d+)%\s*\((\d+)/(\d+)\)"
     match = re.search(pattern, input_string)
 
@@ -40,10 +52,11 @@ def _split_conditional_coverage(input_string) -> tuple[int,int]:
 
     return (covered_branches, branches)
 
+
 def _create_coverage_item(cls) -> CoverageItem:
     class_name = cls.get("name").split("/")[0]
     file_name = cls.get("filename")
-    
+
     coverable_lines = 0
     covered_lines = 0
     branches = 0
@@ -58,15 +71,23 @@ def _create_coverage_item(cls) -> CoverageItem:
 
             if line.get("branch") == "True":
                 conditional_coverage = _split_conditional_coverage(
-                    line.get("condition-coverage"))
-                
+                    line.get("condition-coverage")
+                )
+
                 covered_branches += conditional_coverage[0]
                 branches += conditional_coverage[1]
-    
-    return CoverageItem(class_name, file_name, coverable_lines, covered_lines,
-                         branches, covered_branches)
 
-def _merge_coverage_items(existing: CoverageItem, new:CoverageItem):
+    return CoverageItem(
+        class_name,
+        file_name,
+        coverable_lines,
+        covered_lines,
+        branches,
+        covered_branches,
+    )
+
+
+def _merge_coverage_items(existing: CoverageItem, new: CoverageItem):
     existing.coverable_lines += new.coverable_lines
     existing.covered_lines += new.covered_lines
     existing.branches += new.branches

@@ -2,23 +2,52 @@ from cobertura_console_reporter.coverage_item import CoverageItem
 
 
 def test_get_class_name_when_name_contains_period_returns_expected_result():
-    item = CoverageItem("SampleApp.Domain.Services.FirstService", 
-                        "Services\FirstService.cs", 100, 65, 12, 6)
-    
+    item = CoverageItem(
+        name="SampleApp.Domain.Services.FirstService",
+        file_name="Services\\FirstService.cs",
+        coverable_lines=100,
+        covered_lines=65,
+        branches=12,
+        covered_branches=6,
+    )
+
     assert item.class_name == "FirstService"
 
+
 def test_get_class_name_when_name_does_not_contain_period_returns_expected_result():
-    item = CoverageItem("Program", "Program.cs", 100, 65, 12, 6)
-    
+    item = CoverageItem(
+        name="Program",
+        file_name="Program.cs",
+        coverable_lines=100,
+        covered_lines=65,
+        branches=12,
+        covered_branches=6,
+    )
+
     assert item.class_name == "Program"
 
+
 def test_get_class_namespace_when_name_contains_period_returns_expected_result():
-    item = CoverageItem("SampleApp.Domain.Services.FirstService", 
-                        "Services\FirstService.cs", 100, 65, 12, 6)
-    
+    item = CoverageItem(
+        name="SampleApp.Domain.Services.FirstService",
+        file_name="Services\\FirstService.cs",
+        coverable_lines=100,
+        covered_lines=65,
+        branches=12,
+        covered_branches=6,
+    )
+
     assert item.class_namespace == "SampleApp.Domain.Services"
 
+
 def test_get_class_namespace_when_name_does_not_contain_period_returns_empty_string():
-    item = CoverageItem("Program", "Program.cs", 100, 65, 12, 6)
-    
+    item = CoverageItem(
+        name="Program",
+        file_name="Program.cs",
+        coverable_lines=100,
+        covered_lines=65,
+        branches=12,
+        covered_branches=6,
+    )
+
     assert item.class_namespace == ""
