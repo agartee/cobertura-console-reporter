@@ -8,7 +8,7 @@ def test_format_coverage_items_returns_formatted_string():
     items = [
         CoverageItem(
             name="SampleApp.Domain.Services.FirstService",
-            file_name="Services\FirstService.cs",
+            file_name="Services\\FirstService.cs",
             coverable_lines=100,
             covered_lines=65,
             branches=12,
@@ -16,7 +16,7 @@ def test_format_coverage_items_returns_formatted_string():
         ),
         CoverageItem(
             name="SampleApp.Domain.Services.SecondService",
-            file_name="Services\SecondService.cs",
+            file_name="Services\\SecondService.cs",
             coverable_lines=100,
             covered_lines=65,
             branches=12,
