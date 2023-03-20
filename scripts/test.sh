@@ -23,4 +23,4 @@ coverage report -m
 echo
 echo -e "${BLUE}Test Coverage${NC}" 
 
-pylint "$ROOT_DIR\cobertura_console_reporter"
+pylint "$ROOT_DIR/cobertura_console_reporter"
