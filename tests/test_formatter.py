@@ -26,14 +26,14 @@ def test_format_coverage_items_returns_formatted_string():
         ),
     ]
 
-    expected = """\
-        ---------------------------|-------------------|-----------------|------------|--------------------|-------------------
-        Class Name                 |  Lines Coverable  |  Lines Covered  |  Branches  |  Branches Covered  |  Uncovered Lines
-        ---------------------------|-------------------|-----------------|------------|--------------------|-------------------
-        SampleApp.Domain.Services  |              200  |            130  |        24  |                12  |                 
-          FirstService             |              100  |             65  |        12  |                 6  |  10-11          
-          SecondService            |              100  |             65  |        12  |                 6  |  10-11          
-        ---------------------------|-------------------|-----------------|------------|--------------------|-------------------
+    expected = f"""\
+        ---------------------------|-----------|--------------|---------------------
+        Class Name                 |  % Lines  |  % Branches  |  Uncovered Line #s
+        ---------------------------|-----------|--------------|---------------------
+        SampleApp.Domain.Services  |      65%  |         50%  |                   
+          FirstService             |      65%  |         50%  |  10-11            
+          SecondService            |      65%  |         50%  |  10-11            
+        ---------------------------|-----------|--------------|---------------------
         """
 
     result = format_coverage_items(items, colorize=False)
@@ -54,13 +54,13 @@ def test_format_coverage_items_when_namespace_and_class_names_shorter_than_heade
         )
     ]
 
-    expected = """\
-        ------------|-------------------|-----------------|------------|--------------------|-------------------
-        Class Name  |  Lines Coverable  |  Lines Covered  |  Branches  |  Branches Covered  |  Uncovered Lines
-        ------------|-------------------|-----------------|------------|--------------------|-------------------
-        A.B         |              100  |             50  |        25  |                10  |                 
-          C         |              100  |             50  |        25  |                10  |  10-11          
-        ------------|-------------------|-----------------|------------|--------------------|-------------------
+    expected = f"""\
+        ------------|-----------|--------------|---------------------
+        Class Name  |  % Lines  |  % Branches  |  Uncovered Line #s
+        ------------|-----------|--------------|---------------------
+        A.B         |      50%  |         40%  |                   
+          C         |      50%  |         40%  |  10-11            
+        ------------|-----------|--------------|---------------------
         """
 
     result = format_coverage_items(items, colorize=False)
@@ -81,12 +81,12 @@ def test_format_coverage_items_when_class_does_not_have_namespace_returns_format
         )
     ]
 
-    expected = """\
-        ------------|-------------------|-----------------|------------|--------------------|-------------------
-        Class Name  |  Lines Coverable  |  Lines Covered  |  Branches  |  Branches Covered  |  Uncovered Lines
-        ------------|-------------------|-----------------|------------|--------------------|-------------------
-        Program     |              100  |             50  |        25  |                10  |  10-11          
-        ------------|-------------------|-----------------|------------|--------------------|-------------------
+    expected = f"""\
+        ------------|-----------|--------------|---------------------
+        Class Name  |  % Lines  |  % Branches  |  Uncovered Line #s
+        ------------|-----------|--------------|---------------------
+        Program     |      50%  |         40%  |  10-11            
+        ------------|-----------|--------------|---------------------
         """
 
     result = format_coverage_items(items, colorize=False)
@@ -101,18 +101,18 @@ def test_format_coverage_items_when_uncovered_lines_value_exceeds_max_length_ret
             file_name="Program.cs",
             coverable_lines=100,
             covered_lines=50,
-            uncovered_line_numbers=[10, 11, 13, 15, 17],
+            uncovered_line_numbers=[10, 11, 13, 15, 17, 19, 21],
             branches=25,
             covered_branches=10,
         )
     ]
 
-    expected = """\
-        ------------|-------------------|-----------------|------------|--------------------|-------------------
-        Class Name  |  Lines Coverable  |  Lines Covered  |  Branches  |  Branches Covered  |  Uncovered Lines
-        ------------|-------------------|-----------------|------------|--------------------|-------------------
-        Program     |              100  |             50  |        25  |                10  |  10-11, 13...   
-        ------------|-------------------|-----------------|------------|--------------------|-------------------
+    expected = f"""\
+        ------------|-----------|--------------|---------------------
+        Class Name  |  % Lines  |  % Branches  |  Uncovered Line #s
+        ------------|-----------|--------------|---------------------
+        Program     |      50%  |         40%  |  10-11, 13, 15... 
+        ------------|-----------|--------------|---------------------
         """
 
     result = format_coverage_items(items, colorize=False)
@@ -120,7 +120,7 @@ def test_format_coverage_items_when_uncovered_lines_value_exceeds_max_length_ret
     assert result == textwrap.dedent(expected)
 
 
-def test_format_coverage_items_when_n0_uncovered_lines_exist_for_file_returns_formatted_string():
+def test_format_coverage_items_when_no_uncovered_lines_exist_for_file_returns_formatted_string():
     items = [
         CoverageItem(
             name="Program",
@@ -133,12 +133,38 @@ def test_format_coverage_items_when_n0_uncovered_lines_exist_for_file_returns_fo
         )
     ]
 
-    expected = """\
-        ------------|-------------------|-----------------|------------|--------------------|-------------------
-        Class Name  |  Lines Coverable  |  Lines Covered  |  Branches  |  Branches Covered  |  Uncovered Lines
-        ------------|-------------------|-----------------|------------|--------------------|-------------------
-        Program     |              100  |             50  |        25  |                10  |                 
-        ------------|-------------------|-----------------|------------|--------------------|-------------------
+    expected = f"""\
+        ------------|-----------|--------------|---------------------
+        Class Name  |  % Lines  |  % Branches  |  Uncovered Line #s
+        ------------|-----------|--------------|---------------------
+        Program     |      50%  |         40%  |                   
+        ------------|-----------|--------------|---------------------
+        """
+
+    result = format_coverage_items(items, colorize=False)
+
+    assert result == textwrap.dedent(expected)
+
+
+def test_format_coverage_items_when_no_branches_returns_formatted_string():
+    items = [
+        CoverageItem(
+            name="Program",
+            file_name="Program.cs",
+            coverable_lines=100,
+            covered_lines=50,
+            uncovered_line_numbers=[],
+            branches=0,
+            covered_branches=0,
+        )
+    ]
+
+    expected = f"""\
+        ------------|-----------|--------------|---------------------
+        Class Name  |  % Lines  |  % Branches  |  Uncovered Line #s
+        ------------|-----------|--------------|---------------------
+        Program     |      50%  |         n/a  |                   
+        ------------|-----------|--------------|---------------------
         """
 
     result = format_coverage_items(items, colorize=False)

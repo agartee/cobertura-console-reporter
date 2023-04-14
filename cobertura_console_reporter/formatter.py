@@ -28,11 +28,9 @@ def format_coverage_items(
 
     header_names = [
         "Class Name",
-        "Lines Coverable",
-        "Lines Covered",
-        "Branches",
-        "Branches Covered",
-        "Uncovered Lines",
+        f"% Lines",
+        f"% Branches",
+        "Uncovered Line #s",
     ]
 
     header_lengths = [len(name) for name in header_names]
@@ -47,8 +45,7 @@ def format_coverage_items(
     header_format = "  |  ".join(header_formats)
 
     class_name_col_idx = 0
-    uncovered_line_numbers_col_idx = 5
-
+    uncovered_line_numbers_col_idx = 3
     row_formats = [
         f"{{color}}{{:<{header_lengths[i]}}}{reset_color}"
         if i == class_name_col_idx or i == uncovered_line_numbers_col_idx
@@ -76,10 +73,14 @@ def format_coverage_items(
         if key != "":
             ordered_group_column_values = [
                 key,
-                sum(item.coverable_lines for item in items),
-                sum(item.covered_lines for item in items),
-                sum(item.branches for item in items),
-                sum(item.covered_branches for item in items),
+                _format_percent(
+                    sum(item.covered_lines for item in items),
+                    sum(item.coverable_lines for item in items),
+                ),
+                _format_percent(
+                    sum(item.covered_branches for item in items),
+                    sum(item.branches for item in items),
+                ),
                 "",
             ]
 
@@ -93,11 +94,9 @@ def format_coverage_items(
 
             ordered_column_values = [
                 indent + item.class_name,
-                item.coverable_lines,
-                item.covered_lines,
-                item.branches,
-                item.covered_branches,
-                compact_number_ranges(item.uncovered_line_numbers),
+                _format_percent(item.covered_lines, item.coverable_lines),
+                _format_percent(item.covered_branches, item.branches),
+                _compact_number_ranges(item.uncovered_line_numbers),
             ]
 
             color = Fore.GREEN if colorize is True else ""
@@ -108,17 +107,11 @@ def format_coverage_items(
     return result
 
 
-def compact_number_ranges(numbers: List[int], max_length=15) -> str:
-    """Rewrites sequenced numbers into a range and truncates output if it exceeds the
-    max length.
+def _format_percent(dividend: float, divisor: float) -> str:
+    return format(dividend / divisor, ".0%") if divisor > 0 else "n/a"
 
-    Args:
-        numbers (List[int]): A list of numbers
-        max_length (int, optional): number of characters to allow for the output. Defaults to 15.
 
-    Returns:
-        str: Formatted string.
-    """
+def _compact_number_ranges(numbers: List[int], max_length=17) -> str:
     if not numbers:
         return ""
 
