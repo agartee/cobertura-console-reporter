@@ -59,6 +59,7 @@ def _create_coverage_item(cls) -> CoverageItem:
 
     coverable_lines = 0
     covered_lines = 0
+    uncovered_line_numbers = []
     branches = 0
     covered_branches = 0
 
@@ -68,6 +69,8 @@ def _create_coverage_item(cls) -> CoverageItem:
 
             if int(line.get("hits")) > 0:
                 covered_lines += 1
+            else:
+                uncovered_line_numbers.append(int(line.get("number")))
 
             if line.get("branch") == "True":
                 conditional_coverage = _split_conditional_coverage(
@@ -82,6 +85,7 @@ def _create_coverage_item(cls) -> CoverageItem:
         file_name,
         coverable_lines,
         covered_lines,
+        uncovered_line_numbers,
         branches,
         covered_branches,
     )
@@ -92,3 +96,4 @@ def _merge_coverage_items(existing: CoverageItem, new: CoverageItem):
     existing.covered_lines += new.covered_lines
     existing.branches += new.branches
     existing.covered_branches += new.covered_branches
+    existing.uncovered_line_numbers += new.uncovered_line_numbers

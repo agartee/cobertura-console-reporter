@@ -1,5 +1,2 @@
-[MAIN]
-max-line-length=100
-
 [MASTER]
 ignore-patterns=(.)*_test\.py,test_(.)*\.py

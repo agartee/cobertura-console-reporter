@@ -7,7 +7,7 @@ generated through the `dotnet` cli using the `--collect:"XPlat Code Coverage"` a
 ## Usage
 
 ```bash
-python -m <cobertura_console_reporter <path_to_coverage_cobertura_xml_file> [package_name]
+python -m cobertura_console_reporter <path_to_coverage_cobertura_xml_file> [package_name]
 ```
 
 ### Args

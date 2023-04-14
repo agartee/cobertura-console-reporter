@@ -1,6 +1,9 @@
 """Represents a test-covered .NET class."""
 
 from dataclasses import dataclass
+from typing import List
+
+from attr import field
 
 
 @dataclass
@@ -11,6 +14,7 @@ class CoverageItem:
     file_name: str
     coverable_lines: str
     covered_lines: str
+    uncovered_line_numbers: List[int]
     branches: str
     covered_branches: str
 

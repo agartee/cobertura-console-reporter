@@ -7,6 +7,7 @@ def test_get_class_name_when_name_contains_period_returns_expected_result():
         file_name="Services\\FirstService.cs",
         coverable_lines=100,
         covered_lines=65,
+        uncovered_line_numbers=[10, 11],
         branches=12,
         covered_branches=6,
     )
@@ -20,6 +21,7 @@ def test_get_class_name_when_name_does_not_contain_period_returns_expected_resul
         file_name="Program.cs",
         coverable_lines=100,
         covered_lines=65,
+        uncovered_line_numbers=[10, 11],
         branches=12,
         covered_branches=6,
     )
@@ -33,6 +35,7 @@ def test_get_class_namespace_when_name_contains_period_returns_expected_result()
         file_name="Services\\FirstService.cs",
         coverable_lines=100,
         covered_lines=65,
+        uncovered_line_numbers=[10, 11],
         branches=12,
         covered_branches=6,
     )
@@ -46,6 +49,7 @@ def test_get_class_namespace_when_name_does_not_contain_period_returns_empty_str
         file_name="Program.cs",
         coverable_lines=100,
         covered_lines=65,
+        uncovered_line_numbers=[10, 11],
         branches=12,
         covered_branches=6,
     )

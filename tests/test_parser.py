@@ -55,6 +55,18 @@ def test_parse_return_results_with_covered_lines():
     assert next(iter(item)) == 31
 
 
+def test_parse_return_results_with_uncovered_line_numbers():
+    results = iter(parser.parse("sample_data/coverage.cobertura.single-package.xml"))
+
+    item = [
+        r.uncovered_line_numbers
+        for r in results
+        if r.name == "SampleApp.Domain.Services.SomeService"
+    ]
+
+    assert next(iter(item)) == [40]
+
+
 def test_parse_return_results_with_branches():
     results = iter(parser.parse("sample_data/coverage.cobertura.single-package.xml"))
 
