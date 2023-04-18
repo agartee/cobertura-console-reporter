@@ -12,7 +12,7 @@ def test_get_class_name_when_name_contains_period_returns_expected_result():
         covered_branches=6,
     )
 
-    assert item.class_name == "NOT FirstService"
+    assert item.class_name == "FirstService"
 
 
 def test_get_class_name_when_name_does_not_contain_period_returns_expected_result():
