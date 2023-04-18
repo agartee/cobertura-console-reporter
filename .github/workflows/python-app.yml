@@ -22,6 +22,5 @@ jobs:
       - name: Build, Test, Lint
         run: |
           source ./scripts/bootstrap.sh
-          echo
           ./scripts/test.sh
         shell: bash
