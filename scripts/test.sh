@@ -16,6 +16,8 @@ echo -e "${BLUE}Tests:${NC}"
 echo
 
 coverage run -m pytest "$TESTS_DIR" -v --no-header --capture=no
+exitcode=$?
+if [ $exitcode != 0 ]; then exit $exitcode; fi
 
 echo
 echo -e "${BLUE}Test Coverage:${NC}" 
