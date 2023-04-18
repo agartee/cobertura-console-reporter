@@ -17,7 +17,7 @@ python -m cobertura_console_reporter <path_to_coverage_cobertura_xml_file> [pack
 | Arg                                 | Description                                                             |
 |-------------------------------------|-------------------------------------------------------------------------|
 | path_to_coverage_cobertura_xml_file | Path to the `coverage.cobertura.xml` file produced by Coverlet.         |
-| package_name                        | (Optional) Name of the .NET package (project) to display in the output. |
+| package_name                        | (Optional) Name of the .NET package (project) to display output for. |
 
 ## Available PowerShell/Bash Scripts
 
@@ -25,10 +25,10 @@ These scripts are aimed to normalize script patterns across projects and platfor
 
 | Script                          | Description                                                                                                                                                                       |
 |---------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| `./scripts/bootstrap.{ps1, sh}` | Checks if `Python` is installed at the minimum version.<br>Creates and activates a `Python` virtual environment.<br>Installs `Python` dependencies from the `requirements` files. |
-| `./scripts/build.{ps1, sh}`     | Builds the application as a single executable under the `/dist` directory using PyInstaller.                                                                                      |
 | `./scripts/setup.{ps1, sh}`     | Deletes the existing `Python` virtual environment if it exists and runs `bootstrap`.                                                                                              |
+| `./scripts/bootstrap.{ps1, sh}` | Checks if `Python` is installed at the minimum version.<br>Creates and activates a `Python` virtual environment.<br>Installs `Python` dependencies from the `requirements` files. |
 | `./scripts/test.{ps1, sh}`      | Executes unit tests.                                                                                                                                                              |
+| `./scripts/build.{ps1, sh}`     | Builds the application as a single executable under the `/dist` directory using PyInstaller.                                                                                      |
 
 ## Troubleshooting
 
