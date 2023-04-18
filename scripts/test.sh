@@ -12,6 +12,9 @@ NC="\033[0m" # No Color
 ROOT_DIR="$(cd -P "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 TESTS_DIR="$ROOT_DIR/tests"
 
+echo -e "${BLUE}Tests:${NC}" 
+echo
+
 coverage run -m pytest "$TESTS_DIR" -v --no-header --capture=no
 
 echo

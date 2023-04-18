@@ -1,6 +1,9 @@
 $rootDir = (get-item $PSScriptRoot).Parent.FullName
 $testsPath = "$($rootDir)\tests"
 
+Write-Host "Tests:" -ForegroundColor Blue
+Write-Host ""
+
 coverage run -m pytest $testsPath -v --no-header --capture=no
 
 Write-Host ""
