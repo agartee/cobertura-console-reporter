@@ -3,8 +3,6 @@
 from dataclasses import dataclass
 from typing import List
 
-from attr import field
-
 
 @dataclass
 class CoverageItem:

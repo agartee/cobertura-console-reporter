@@ -89,7 +89,7 @@ def _build_data_row_format(
 ):
     return [
         f"{{color}}{{:<{header_lengths[i]}}}{reset_color_val}"
-        if i == class_name_col_idx or i == uncovered_line_numbers_col_idx
+        if i in [class_name_col_idx, uncovered_line_numbers_col_idx]
         else f"{{color}}{{:>{header_lengths[i]}}}{reset_color_val}"
         for i in range(len(header_names))
     ]
@@ -166,11 +166,11 @@ def _compact_number_ranges(numbers: List[int], max_length=17) -> str:
     ranges.append((start, end))
 
     output = []
-    for r in ranges:
-        if r[0] == r[1]:
-            output.append(str(r[0]))
+    for rng in ranges:
+        if rng[0] == rng[1]:
+            output.append(str(rng[0]))
         else:
-            output.append(f"{r[0]}-{r[1]}")
+            output.append(f"{rng[0]}-{rng[1]}")
 
     result = ", ".join(output)
 
