@@ -1,7 +1,5 @@
 # Cobertura Console Reporter
 
-![build](https://github.com/agartee/cobertura-console-reporter/actions/workflows/python-app.yml/badge.svg)
-
 Cobertura Console Reporter produces an easy to read console output for 
 [Coverlet](https://github.com/coverlet-coverage/coverlet) output files (`coverage.cobertura.xml`) when
 generated through the `dotnet` cli using the `--collect:"XPlat Code Coverage"` arg.
