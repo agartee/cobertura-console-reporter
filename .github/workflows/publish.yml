@@ -1,0 +1,41 @@
+name: Build and Publish
+
+on:
+  release:
+    types: [published]
+
+jobs:
+  build:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Set up Python 3.10
+        uses: actions/setup-python@v3
+        with:
+          python-version: "3.10"
+
+      - name: Bootstrap/Build
+        run: |
+          if [ "${{ matrix.os }}" == "windows-latest" ]; then
+            powershell -ExecutionPolicy Unrestricted -File scripts/bootstrap.ps1
+            powershell -ExecutionPolicy Unrestricted -File scripts/build.ps1
+          else
+            source ./scripts/bootstrap.sh
+            ./scripts/build.sh
+          fi
+
+      - name: Upload release asset
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ github.event.release.upload_url }}
+          asset_path: ./dist/ccr${{ matrix.os == 'windows-latest' && '.exe' || '' }}
+          asset_name: ccr${{ matrix.os == 'windows-latest' && '.exe' || '' }}
+          asset_content_type: application/octet-stream
