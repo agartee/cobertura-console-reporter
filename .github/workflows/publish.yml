@@ -1,15 +1,19 @@
-name: Build and Publish
+name: Publish Release Assets
+
+concurrency:
+  group: production
+  cancel-in-progress: true
+
+permissions:
+  contents: write
 
 on:
   release:
     types: [published]
 
 jobs:
-  build:
-    runs-on: ${{ matrix.os }}
-    strategy:
-      matrix:
-        os: [ubuntu-latest, windows-latest]
+  linux:
+    runs-on: ubuntu-latest
 
     steps:
       - name: Checkout repository
@@ -20,24 +24,80 @@ jobs:
         with:
           python-version: "3.10"
 
-      - name: Bootstrap/Build (Windows)
-        if: matrix.os == 'windows-latest'
-        run: |
-          powershell -ExecutionPolicy Unrestricted -File scripts/bootstrap.ps1
-          powershell -ExecutionPolicy Unrestricted -File scripts/build.ps1
-
-      - name: Bootstrap/Build (Linux)
-        if: matrix.os == 'ubuntu-latest'
+      - name: Build
         run: |
           source ./scripts/bootstrap.sh
           ./scripts/build.sh
+        shell: bash
 
-      - name: Upload release asset
-        uses: actions/upload-release-asset@v1
+      - name: Archive assets
+        run: |
+          tar -czf "./dist/ccr_linux_${GITHUB_REF_NAME}_amd64.tar.gz" -C ./dist ccr
+        shell: bash
+
+      - name: Upload assets
+        run: |
+          gh release upload $GITHUB_REF_NAME ./dist/ccr_linux_${GITHUB_REF_NAME}_amd64.tar.gz --clobber
+        shell: bash
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_TOKEN: ${{ github.token }}
+
+  macos:
+    runs-on: macos-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Set up Python 3.10
+        uses: actions/setup-python@v3
         with:
-          upload_url: ${{ github.event.release.upload_url }}
-          asset_path: ./dist/ccr${{ matrix.os == 'windows-latest' && '.exe' || '' }}
-          asset_name: ccr${{ matrix.os == 'windows-latest' && '.exe' || '' }}
-          asset_content_type: application/octet-stream
+          python-version: "3.10"
+
+      - name: Build
+        run: |
+          source ./scripts/bootstrap.sh
+          ./scripts/build.sh
+        shell: bash
+
+      - name: Archive assets
+        run: |
+          tar -czf "./dist/ccr_macos_${GITHUB_REF_NAME}_amd64.tar.gz" -C ./dist ccr
+        shell: bash
+
+      - name: Upload assets
+        run: |
+          gh release upload $GITHUB_REF_NAME ./dist/ccr_macos_${GITHUB_REF_NAME}_amd64.tar.gz --clobber
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+
+  windows:
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Set up Python 3.10
+        uses: actions/setup-python@v3
+        with:
+          python-version: "3.10"
+
+      - name: Build
+        run: |
+          ./scripts/bootstrap.ps1
+          ./scripts/build.ps1
+        shell: pwsh
+
+      - name: Archive assets
+        run: |
+          tar -czf ./dist/ccr_windows_${env:GITHUB_REF_NAME}_amd64.zip -C ./dist ccr.exe
+        shell: pwsh
+
+      - name: Upload assets
+        run: |
+          gh release upload $env:GITHUB_REF_NAME ./dist/ccr_windows_${env:GITHUB_REF_NAME}_amd64.zip --clobber
+        shell: pwsh
+        env:
+          GH_TOKEN: ${{ github.token }}
