@@ -15,13 +15,13 @@ python -m cobertura_console_reporter <path_to_coverage_cobertura_xml_file> [pack
 As Windows binary:
 
 ```bash
-ccr.exe cobertura_console_reporter <path_to_coverage_cobertura_xml_file> [package_name]
+ccr.exe <path_to_coverage_cobertura_xml_file> [package_name]
 ```
 
 As Mac/Linux binary:
 
 ```bash
-ccr cobertura_console_reporter <path_to_coverage_cobertura_xml_file> [package_name]
+ccr <path_to_coverage_cobertura_xml_file> [package_name]
 ```
 
 ### Args
