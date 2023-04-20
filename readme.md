@@ -6,8 +6,22 @@ generated through the `dotnet` cli using the `--collect:"XPlat Code Coverage"` a
 
 ## Usage
 
+As Python module:
+
 ```bash
 python -m cobertura_console_reporter <path_to_coverage_cobertura_xml_file> [package_name]
+```
+
+As Windows binary:
+
+```bash
+ccr.exe cobertura_console_reporter <path_to_coverage_cobertura_xml_file> [package_name]
+```
+
+As Mac/Linux binary:
+
+```bash
+ccr cobertura_console_reporter <path_to_coverage_cobertura_xml_file> [package_name]
 ```
 
 ### Args
