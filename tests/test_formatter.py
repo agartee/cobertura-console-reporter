@@ -1,7 +1,10 @@
 import textwrap
 
+from colorama import Fore, Style
+
 from cobertura_console_reporter.coverage_item import CoverageItem
 from cobertura_console_reporter.formatter import format_coverage_items
+from cobertura_console_reporter.formatter_config import FormatterConfig
 
 
 def test_format_coverage_items_returns_formatted_string():
@@ -36,7 +39,7 @@ def test_format_coverage_items_returns_formatted_string():
         ---------------------------|-----------|--------------|---------------------
         """
 
-    result = format_coverage_items(items, colorize=False)
+    result = format_coverage_items(items, FormatterConfig.no_color())
 
     assert result == textwrap.dedent(expected)
 
@@ -63,7 +66,7 @@ def test_format_coverage_items_when_namespace_and_class_names_shorter_than_heade
         ------------|-----------|--------------|---------------------
         """
 
-    result = format_coverage_items(items, colorize=False)
+    result = format_coverage_items(items, FormatterConfig.no_color())
 
     assert result == textwrap.dedent(expected)
 
@@ -89,7 +92,7 @@ def test_format_coverage_items_when_class_does_not_have_namespace_returns_format
         ------------|-----------|--------------|---------------------
         """
 
-    result = format_coverage_items(items, colorize=False)
+    result = format_coverage_items(items, FormatterConfig.no_color())
 
     assert result == textwrap.dedent(expected)
 
@@ -115,7 +118,7 @@ def test_format_coverage_items_when_uncovered_lines_value_exceeds_max_length_ret
         ------------|-----------|--------------|---------------------
         """
 
-    result = format_coverage_items(items, colorize=False)
+    result = format_coverage_items(items, FormatterConfig.no_color())
 
     assert result == textwrap.dedent(expected)
 
@@ -141,7 +144,7 @@ def test_format_coverage_items_when_no_uncovered_lines_exist_for_file_returns_fo
         ------------|-----------|--------------|---------------------
         """
 
-    result = format_coverage_items(items, colorize=False)
+    result = format_coverage_items(items, FormatterConfig.no_color())
 
     assert result == textwrap.dedent(expected)
 
@@ -167,6 +170,66 @@ def test_format_coverage_items_when_no_branches_returns_formatted_string():
         ------------|-----------|--------------|---------------------
         """
 
-    result = format_coverage_items(items, colorize=False)
+    result = format_coverage_items(items, FormatterConfig.no_color())
 
     assert result == textwrap.dedent(expected)
+
+
+def test_format_coverage_items_when_colorized_and_branch_coverage_above_threshold_returns_green_text():
+    items = [
+        CoverageItem(
+            name="Program",
+            file_name="Program.cs",
+            coverable_lines=10,
+            covered_lines=10,
+            uncovered_line_numbers=[],
+            branches=0,
+            covered_branches=0,
+        )
+    ]
+
+    result = format_coverage_items(
+        items, FormatterConfig(colorize=True, warning_threshold=90)
+    )
+
+    assert Fore.GREEN in result
+
+
+def test_format_coverage_items_when_colorized_and_line_coverage_below_threshold_returns_yellow_text():
+    items = [
+        CoverageItem(
+            name="Program",
+            file_name="Program.cs",
+            coverable_lines=10,
+            covered_lines=5,
+            uncovered_line_numbers=[5, 6, 7, 8, 9],
+            branches=5,
+            covered_branches=0,
+        )
+    ]
+
+    result = format_coverage_items(
+        items, FormatterConfig(colorize=True, warning_threshold=90)
+    )
+
+    assert Fore.YELLOW in result
+
+
+def test_format_coverage_items_when_colorized_and_branch_coverage_below_threshold_returns_yellow_text():
+    items = [
+        CoverageItem(
+            name="Program",
+            file_name="Program.cs",
+            coverable_lines=10,
+            covered_lines=10,
+            uncovered_line_numbers=[],
+            branches=5,
+            covered_branches=2,
+        )
+    ]
+
+    result = format_coverage_items(
+        items, FormatterConfig(colorize=True, warning_threshold=90)
+    )
+
+    assert Fore.YELLOW in result

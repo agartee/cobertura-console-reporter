@@ -6,22 +6,23 @@ from typing import Iterator, List
 from colorama import Fore, Style
 
 from cobertura_console_reporter.coverage_item import CoverageItem
+from cobertura_console_reporter.formatter_config import FormatterConfig
 
 
 # pylint: disable=too-many-locals
 def format_coverage_items(
-    coverage_items: Iterator[CoverageItem], colorize: bool = False
+    coverage_items: Iterator[CoverageItem], config: FormatterConfig
 ) -> str:
     """Formats a list of CoverageItems into a string suitable for console output.
 
     Args:
         coverage_items (Iterator[CoverageItem]): CoverageItems to display.
-        colorize (bool, optional): Colorize by test-coverage status. Defaults to False.
+        config (FormatterConfig): Formatting configuration
 
     Returns:
         str: Formatted string intended for console output.
     """
-    reset_color_val = Style.RESET_ALL if colorize is True else ""
+    reset_color_val = Style.RESET_ALL if config.colorize is True else ""
     class_name_length = _calc_class_name_length(coverage_items)
 
     header_names = [
@@ -62,10 +63,10 @@ def format_coverage_items(
         items = list(group)
 
         if key != "":
-            result += _build_namespace_data_row(key, items, row_format, colorize)
+            result += _build_namespace_data_row(key, items, row_format, config)
 
         for item in items:
-            result += _build_data_row(key, item, row_format, colorize)
+            result += _build_data_row(key, item, row_format, config)
 
     result += f"{separator_row}\n"
 
@@ -110,43 +111,73 @@ def _calc_class_name_length(coverage_items):
 
 
 def _build_namespace_data_row(
-    key: str, items: list[CoverageItem], row_format: str, colorize: bool
+    key: str, items: list[CoverageItem], row_format: str, config: FormatterConfig
 ) -> str:
+    covered_line_percent = _format_percent(
+        sum(item.covered_lines for item in items),
+        sum(item.coverable_lines for item in items),
+    )
+    covered_branch_percent = _format_percent(
+        sum(item.covered_branches for item in items),
+        sum(item.branches for item in items),
+    )
+
     ordered_group_column_values = [
         key,
-        _format_percent(
-            sum(item.covered_lines for item in items),
-            sum(item.coverable_lines for item in items),
-        ),
-        _format_percent(
-            sum(item.covered_branches for item in items),
-            sum(item.branches for item in items),
-        ),
-        "",
+        covered_line_percent,
+        covered_branch_percent,
+        "",  # uncovered lines column
     ]
 
-    color = Fore.GREEN if colorize is True else ""
+    color = _get_row_color(config, covered_line_percent, covered_branch_percent)
     return f"{row_format.format(color=color, *ordered_group_column_values)}\n"
 
 
 def _build_data_row(
-    key: str, item: CoverageItem, row_format: str, colorize: bool
+    key: str, item: CoverageItem, row_format: str, config: FormatterConfig
 ) -> str:
     indent = "  " if key != "" else ""
+    covered_line_percent = _format_percent(item.covered_lines, item.coverable_lines)
+    covered_branch_percent = _format_percent(item.covered_branches, item.branches)
 
     ordered_column_values = [
         indent + item.class_name,
-        _format_percent(item.covered_lines, item.coverable_lines),
-        _format_percent(item.covered_branches, item.branches),
+        covered_line_percent,
+        covered_branch_percent,
         _compact_number_ranges(item.uncovered_line_numbers),
     ]
 
-    color = Fore.GREEN if colorize is True else ""
+    color = _get_row_color(config, covered_line_percent, covered_branch_percent)
     return f"{row_format.format(color=color, *ordered_column_values)}\n"
 
 
 def _format_percent(dividend: float, divisor: float) -> str:
     return format(dividend / divisor, ".0%") if divisor > 0 else "n/a"
+
+
+def _get_row_color(
+    config: FormatterConfig,
+    covered_line_percent_str: str,
+    covered_branch_percent_str: str,
+) -> str:
+    if config.colorize is True:
+        if _below_percent(covered_line_percent_str, config.warning_threshold):
+            return Fore.YELLOW
+        if _below_percent(covered_branch_percent_str, config.warning_threshold):
+            return Fore.YELLOW
+
+        return Fore.GREEN
+
+    return ""
+
+
+def _below_percent(value_percent_str: str, threshold_percent: float) -> bool:
+    if value_percent_str == "n/a" or not threshold_percent:
+        return False
+
+    value_percent = float(value_percent_str.rstrip("%"))
+
+    return value_percent < threshold_percent
 
 
 def _compact_number_ranges(numbers: List[int], max_length=17) -> str:

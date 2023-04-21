@@ -5,6 +5,7 @@ import sys
 
 from cobertura_console_reporter import parser as coverage_parser
 from cobertura_console_reporter import formatter
+from cobertura_console_reporter.formatter_config import FormatterConfig
 
 
 def main():
@@ -22,7 +23,15 @@ def main():
         "-p",
         dest="package_name",
         required=False,
-        help="(Optional) Name of the .NET package (project) to display output for.",
+        help="[Optional] Name of the .NET package (project) to display output for.",
+    )
+    arg_parser.add_argument(
+        "--warning-threshold",
+        "-w",
+        dest="warning_threshold",
+        required=False,
+        help="[Optional] Coverage percentage to display as a warning (defaults to 90).",
+        default=90,
     )
     args = arg_parser.parse_args()
 
@@ -31,7 +40,9 @@ def main():
         sys.exit(1)
 
     coverage_items = coverage_parser.parse(args.coverage_file, args.package_name)
-    formatted_result = formatter.format_coverage_items(coverage_items, colorize=True)
+    formatted_result = formatter.format_coverage_items(
+        coverage_items, FormatterConfig.default()
+    )
 
     print(formatted_result)
 
