@@ -9,27 +9,28 @@ generated through the `dotnet` cli using the `--collect:"XPlat Code Coverage"` a
 As Python module:
 
 ```bash
-python -m cobertura_console_reporter --coverage-file <path_to_coverage_cobertura_xml_file> [--package <package_name>]
+python -m cobertura_console_reporter --coverage-file <path_to_coverage_cobertura_xml_file> [--package <package_name>] [--warning-threshold <number>]
 ```
 
 As Windows binary:
 
 ```powershell
-ccr.exe --coverage-file <path_to_coverage_cobertura_xml_file> [--package <package_name>]
+ccr.exe --coverage-file <path_to_coverage_cobertura_xml_file> [--package <package_name>] [--warning-threshold <number>]
 ```
 
 As Mac/Linux binary:
 
 ```bash
-ccr --coverage-file <path_to_coverage_cobertura_xml_file> [--package <package_name>]
+ccr --coverage-file <path_to_coverage_cobertura_xml_file> [--package <package_name>] [--warning-threshold <number>]
 ```
 
 ### Args
 
-| Arg                                 | Description                                      |
-|-------------------------------------|--------------------------------------------------|
-| --coverage-file | Path to the `coverage.cobertura.xml` file produced by Coverlet.      |
-| --package       | (Optional) Name of the .NET package (project) to display output for. |
+| Arg                 | Description                                                              |
+|---------------------|--------------------------------------------------------------------------|
+| --coverage-file     | Path to the `coverage.cobertura.xml` file produced by Coverlet.          |
+| --package           | [Optional] Name of the .NET package (project) to display output for.     |
+| --warning-threshold | [Optional] Coverage percentage to display as a warning (defaults to 90). |
 
 ## Available PowerShell/Bash Scripts
 
