@@ -9,27 +9,27 @@ generated through the `dotnet` cli using the `--collect:"XPlat Code Coverage"` a
 As Python module:
 
 ```bash
-python -m cobertura_console_reporter <path_to_coverage_cobertura_xml_file> [package_name]
+python -m cobertura_console_reporter --coverage-file <path_to_coverage_cobertura_xml_file> [--package <package_name>]
 ```
 
 As Windows binary:
 
-```bash
-ccr.exe <path_to_coverage_cobertura_xml_file> [package_name]
+```powershell
+ccr.exe --coverage-file <path_to_coverage_cobertura_xml_file> [--package <package_name>]
 ```
 
 As Mac/Linux binary:
 
 ```bash
-ccr <path_to_coverage_cobertura_xml_file> [package_name]
+ccr --coverage-file <path_to_coverage_cobertura_xml_file> [--package <package_name>]
 ```
 
 ### Args
 
-| Arg                                 | Description                                                             |
-|-------------------------------------|-------------------------------------------------------------------------|
-| path_to_coverage_cobertura_xml_file | Path to the `coverage.cobertura.xml` file produced by Coverlet.         |
-| package_name                        | (Optional) Name of the .NET package (project) to display output for. |
+| Arg                                 | Description                                      |
+|-------------------------------------|--------------------------------------------------|
+| --coverage-file | Path to the `coverage.cobertura.xml` file produced by Coverlet.      |
+| --package       | (Optional) Name of the .NET package (project) to display output for. |
 
 ## Available PowerShell/Bash Scripts
 
