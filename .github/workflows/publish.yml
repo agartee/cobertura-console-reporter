@@ -92,7 +92,12 @@ jobs:
 
       - name: Archive assets
         run: |
-          tar -czf ./dist/ccr_windows_${env:GITHUB_REF_NAME}_amd64.zip -C ./dist ccr.exe
+          $compress = @{
+            Path = "./dist/ccr.exe"
+            CompressionLevel = "Fastest"
+            DestinationPath = "./dist/ccr_windows_${env:GITHUB_REF_NAME}_amd64.zip"
+          }
+          Compress-Archive @compress
         shell: pwsh
 
       - name: Upload assets
