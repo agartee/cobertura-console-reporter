@@ -35,7 +35,7 @@ jobs:
 
       - name: Archive assets
         run: |
-          tar -czf "./dist/ccr_linux_${GITHUB_REF_NAME}_amd64.tar.gz" -C ./dist ccr
+          tar -czf "./dist/ccr_${{ matrix.os }}_${GITHUB_REF_NAME}_amd64.tar.gz" -C ./dist ccr
         shell: bash
 
       - name: Upload assets
