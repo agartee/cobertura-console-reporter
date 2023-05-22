@@ -13,7 +13,10 @@ on:
 
 jobs:
   linux:
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-22.04, ubuntu-20.04]
 
     steps:
       - name: Checkout repository
@@ -37,7 +40,7 @@ jobs:
 
       - name: Upload assets
         run: |
-          gh release upload $GITHUB_REF_NAME ./dist/ccr_linux_${GITHUB_REF_NAME}_amd64.tar.gz --clobber
+          gh release upload $GITHUB_REF_NAME ./dist/ccr_${{ matrix.os }}_${GITHUB_REF_NAME}_amd64.tar.gz --clobber
         shell: bash
         env:
           GH_TOKEN: ${{ github.token }}
