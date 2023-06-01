@@ -4,6 +4,10 @@ Cobertura Console Reporter produces an easy to read console output for
 [Coverlet](https://github.com/coverlet-coverage/coverlet) output files (`coverage.cobertura.xml`) when
 generated through the `dotnet` cli using the `--collect:"XPlat Code Coverage"` arg.
 
+## Sample Output
+
+![sample output](img/sample.png)
+
 ## Usage
 
 As Python module:
