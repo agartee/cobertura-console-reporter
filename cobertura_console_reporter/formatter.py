@@ -8,6 +8,8 @@ from colorama import Fore, Style
 from cobertura_console_reporter.coverage_item import CoverageItem
 from cobertura_console_reporter.formatter_config import FormatterConfig
 
+INDENT_SPACES = 2
+
 
 # pylint: disable=too-many-locals
 def format_coverage_items(
@@ -105,9 +107,13 @@ def _build_header_row_formats(header_names, header_lengths):
 
 def _calc_class_name_length(coverage_items):
     return max(
-        [len(ci.class_name) for ci in coverage_items]
+        [len(ci.class_name) + _calc_indent(ci) for ci in coverage_items]
         + [len(ci.class_namespace) for ci in coverage_items]
     )
+
+
+def _calc_indent(coverage_item):
+    return INDENT_SPACES if coverage_item.class_namespace != "" else 0
 
 
 def _build_namespace_data_row(
