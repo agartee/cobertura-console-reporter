@@ -15,6 +15,7 @@ class CoverageItem:
     uncovered_line_numbers: List[int]
     branches: str
     covered_branches: str
+    uncovered_branch_line_numbers: List[int]
 
     @property
     def class_name(self) -> str:

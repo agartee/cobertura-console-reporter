@@ -150,7 +150,9 @@ def _build_data_row(
         indent + item.class_name,
         covered_line_percent,
         covered_branch_percent,
-        _compact_number_ranges(item.uncovered_line_numbers),
+        _compact_number_ranges(
+            list(set(item.uncovered_line_numbers + item.uncovered_branch_line_numbers))
+        ),
     ]
 
     color = _get_row_color(config, covered_line_percent, covered_branch_percent)

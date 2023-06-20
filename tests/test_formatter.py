@@ -17,6 +17,7 @@ def test_format_coverage_items_returns_formatted_string():
             uncovered_line_numbers=[10, 11],
             branches=12,
             covered_branches=6,
+            uncovered_branch_line_numbers=[11, 12],
         ),
         CoverageItem(
             name="SampleApp.Domain.Services.SecondService",
@@ -26,6 +27,7 @@ def test_format_coverage_items_returns_formatted_string():
             uncovered_line_numbers=[10, 11],
             branches=12,
             covered_branches=6,
+            uncovered_branch_line_numbers=[11, 12],
         ),
     ]
 
@@ -34,8 +36,8 @@ def test_format_coverage_items_returns_formatted_string():
         Class Name                 |  % Lines  |  % Branches  |  Uncovered Line #s
         ---------------------------|-----------|--------------|---------------------
         SampleApp.Domain.Services  |      65%  |         50%  |                   
-          FirstService             |      65%  |         50%  |  10-11            
-          SecondService            |      65%  |         50%  |  10-11            
+          FirstService             |      65%  |         50%  |  10-12            
+          SecondService            |      65%  |         50%  |  10-12            
         ---------------------------|-----------|--------------|---------------------
         """
 
@@ -54,6 +56,7 @@ def test_format_coverage_items_when_namespace_and_class_names_shorter_than_heade
             uncovered_line_numbers=[10, 11],
             branches=25,
             covered_branches=10,
+            uncovered_branch_line_numbers=[],
         )
     ]
 
@@ -81,6 +84,7 @@ def test_format_coverage_items_when_class_name_longer_than_namespace_returns_for
             uncovered_line_numbers=[10, 11],
             branches=12,
             covered_branches=6,
+            uncovered_branch_line_numbers=[],
         )
     ]
 
@@ -108,6 +112,7 @@ def test_format_coverage_items_when_class_does_not_have_namespace_returns_format
             uncovered_line_numbers=[10, 11],
             branches=25,
             covered_branches=10,
+            uncovered_branch_line_numbers=[],
         )
     ]
 
@@ -134,6 +139,7 @@ def test_format_coverage_items_when_uncovered_lines_value_exceeds_max_length_ret
             uncovered_line_numbers=[10, 11, 13, 15, 17, 19, 21],
             branches=25,
             covered_branches=10,
+            uncovered_branch_line_numbers=[],
         )
     ]
 
@@ -160,6 +166,7 @@ def test_format_coverage_items_when_no_uncovered_lines_exist_for_file_returns_fo
             uncovered_line_numbers=[],
             branches=25,
             covered_branches=10,
+            uncovered_branch_line_numbers=[],
         )
     ]
 
@@ -186,6 +193,7 @@ def test_format_coverage_items_when_no_branches_returns_formatted_string():
             uncovered_line_numbers=[],
             branches=0,
             covered_branches=0,
+            uncovered_branch_line_numbers=[],
         )
     ]
 
@@ -212,6 +220,7 @@ def test_format_coverage_items_when_colorized_and_branch_coverage_above_threshol
             uncovered_line_numbers=[],
             branches=0,
             covered_branches=0,
+            uncovered_branch_line_numbers=[],
         )
     ]
 
@@ -232,6 +241,7 @@ def test_format_coverage_items_when_colorized_and_line_coverage_below_threshold_
             uncovered_line_numbers=[5, 6, 7, 8, 9],
             branches=5,
             covered_branches=0,
+            uncovered_branch_line_numbers=[],
         )
     ]
 
@@ -252,6 +262,7 @@ def test_format_coverage_items_when_colorized_and_branch_coverage_below_threshol
             uncovered_line_numbers=[],
             branches=5,
             covered_branches=2,
+            uncovered_branch_line_numbers=[],
         )
     ]
 

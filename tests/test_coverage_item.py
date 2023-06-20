@@ -10,6 +10,7 @@ def test_get_class_name_when_name_contains_period_returns_expected_result():
         uncovered_line_numbers=[10, 11],
         branches=12,
         covered_branches=6,
+        uncovered_branch_line_numbers=[],
     )
 
     assert item.class_name == "FirstService"
@@ -24,6 +25,7 @@ def test_get_class_name_when_name_does_not_contain_period_returns_expected_resul
         uncovered_line_numbers=[10, 11],
         branches=12,
         covered_branches=6,
+        uncovered_branch_line_numbers=[],
     )
 
     assert item.class_name == "Program"
@@ -38,6 +40,7 @@ def test_get_class_namespace_when_name_contains_period_returns_expected_result()
         uncovered_line_numbers=[10, 11],
         branches=12,
         covered_branches=6,
+        uncovered_branch_line_numbers=[],
     )
 
     assert item.class_namespace == "SampleApp.Domain.Services"
@@ -52,6 +55,7 @@ def test_get_class_namespace_when_name_does_not_contain_period_returns_empty_str
         uncovered_line_numbers=[10, 11],
         branches=12,
         covered_branches=6,
+        uncovered_branch_line_numbers=[],
     )
 
     assert item.class_namespace == ""

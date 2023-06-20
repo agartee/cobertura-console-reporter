@@ -87,3 +87,15 @@ def test_parse_return_results_with_covered_branches():
     ]
 
     assert next(iter(item)) == 9
+
+
+def test_parse_return_results_with_uncovered_branch_lines():
+    results = iter(parser.parse("sample_data/coverage.cobertura.single-package.xml"))
+
+    item = [
+        r.uncovered_branch_line_numbers
+        for r in results
+        if r.name == "SampleApp.Domain.Services.SomeService"
+    ]
+
+    assert next(iter(item)) == [31, 39]
