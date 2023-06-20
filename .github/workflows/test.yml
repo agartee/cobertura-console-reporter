@@ -1,4 +1,4 @@
-name: Test and Lint
+name: Run Unit Tests
 
 on:
   push:
@@ -14,7 +14,7 @@ permissions:
   contents: read
 
 jobs:
-  build:
+  build-and-test:
     runs-on: ubuntu-latest
 
     steps:
