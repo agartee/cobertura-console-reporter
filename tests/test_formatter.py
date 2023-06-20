@@ -71,6 +71,33 @@ def test_format_coverage_items_when_namespace_and_class_names_shorter_than_heade
     assert result == textwrap.dedent(expected)
 
 
+def test_format_coverage_items_when_class_name_longer_than_namespace_returns_formatted_string():
+    items = [
+        CoverageItem(
+            name="SampleApp.Domain.ServiceWithReallyLongName",
+            file_name="Services\\ServiceWithReallyLongName.cs",
+            coverable_lines=100,
+            covered_lines=65,
+            uncovered_line_numbers=[10, 11],
+            branches=12,
+            covered_branches=6,
+        )
+    ]
+
+    expected = f"""\
+        -----------------------------|-----------|--------------|---------------------
+        Class Name                   |  % Lines  |  % Branches  |  Uncovered Line #s
+        -----------------------------|-----------|--------------|---------------------
+        SampleApp.Domain             |      65%  |         50%  |                   
+          ServiceWithReallyLongName  |      65%  |         50%  |  10-11            
+        -----------------------------|-----------|--------------|---------------------
+        """
+
+    result = format_coverage_items(items, FormatterConfig.no_color())
+
+    assert result == textwrap.dedent(expected)
+
+
 def test_format_coverage_items_when_class_does_not_have_namespace_returns_formatted_string():
     items = [
         CoverageItem(
