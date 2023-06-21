@@ -5,10 +5,14 @@ on:
     branches: ["main"]
     paths-ignore:
       - "**.md"
+      - "**.ps1"
+      - "**.sh"
   pull_request:
     branches: ["main"]
     paths-ignore:
       - "**.md"
+      - "**.ps1"
+      - "**.sh"
 
 permissions:
   contents: read
