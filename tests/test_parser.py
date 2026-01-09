@@ -18,6 +18,11 @@ def test_parse_with_multiple_class_definitions_for_class_returns_correct_number_
     assert len(results) == 1
 
 
+def test_parse_with_no_reportable_coverage_returns_zero_results():
+    results = parser.parse("sample_data/coverage.cobertura.no-coverage.xml")
+    assert len(results) == 0
+
+
 def test_parse_return_results_with_class_name():
     results = parser.parse("sample_data/coverage.cobertura.single-package.xml")
 

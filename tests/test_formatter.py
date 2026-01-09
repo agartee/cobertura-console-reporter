@@ -210,6 +210,16 @@ def test_format_coverage_items_when_no_branches_returns_formatted_string():
     assert result == textwrap.dedent(expected)
 
 
+def test_format_coverage_items_when_items_is_empty_returns_empty_table():
+    items = []
+
+    expected = "No Coverage\n"
+
+    result = format_coverage_items(items, FormatterConfig.no_color())
+
+    assert result == textwrap.dedent(expected)
+
+
 def test_format_coverage_items_when_colorized_and_branch_coverage_above_threshold_returns_green_text():
     items = [
         CoverageItem(
