@@ -35,12 +35,12 @@ jobs:
 
       - name: Archive assets
         run: |
-          tar -czf "./dist/ccr_${{ matrix.os }}_${GITHUB_REF_NAME}_amd64.tar.gz" -C ./dist ccr
+          tar -czf "./dist/ccr_${{ matrix.os }}_amd64.tar.gz" -C ./dist ccr
         shell: bash
 
       - name: Upload assets
         run: |
-          gh release upload $GITHUB_REF_NAME ./dist/ccr_${{ matrix.os }}_${GITHUB_REF_NAME}_amd64.tar.gz --clobber
+          gh release upload $GITHUB_REF_NAME ./dist/ccr_${{ matrix.os }}_amd64.tar.gz --clobber
         shell: bash
         env:
           GH_TOKEN: ${{ github.token }}
@@ -65,12 +65,12 @@ jobs:
 
       - name: Archive assets
         run: |
-          tar -czf "./dist/ccr_macos_${GITHUB_REF_NAME}_amd64.tar.gz" -C ./dist ccr
+          tar -czf "./dist/ccr_macos_amd64.tar.gz" -C ./dist ccr
         shell: bash
 
       - name: Upload assets
         run: |
-          gh release upload $GITHUB_REF_NAME ./dist/ccr_macos_${GITHUB_REF_NAME}_amd64.tar.gz --clobber
+          gh release upload $GITHUB_REF_NAME ./dist/ccr_macos_amd64.tar.gz --clobber
         shell: bash
         env:
           GH_TOKEN: ${{ github.token }}
@@ -98,14 +98,14 @@ jobs:
           $compress = @{
             Path = "./dist/ccr.exe"
             CompressionLevel = "Fastest"
-            DestinationPath = "./dist/ccr_windows_${env:GITHUB_REF_NAME}_amd64.zip"
+            DestinationPath = "./dist/ccr_windows_amd64.zip"
           }
           Compress-Archive @compress
         shell: pwsh
 
       - name: Upload assets
         run: |
-          gh release upload $env:GITHUB_REF_NAME ./dist/ccr_windows_${env:GITHUB_REF_NAME}_amd64.zip --clobber
+          gh release upload $env:GITHUB_REF_NAME ./dist/ccr_windows_amd64.zip --clobber
         shell: pwsh
         env:
           GH_TOKEN: ${{ github.token }}
