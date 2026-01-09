@@ -2,15 +2,27 @@
 import argparse
 import os
 import sys
+import importlib.metadata
 
 from cobertura_console_reporter import parser as coverage_parser
 from cobertura_console_reporter import formatter
 from cobertura_console_reporter.formatter_config import FormatterConfig
 
+def _get_version() -> str:
+    try:
+        return importlib.metadata.version("cobertura-console-reporter")
+    except importlib.metadata.PackageNotFoundError:
+        return "0.0.0+dev"
 
 def main():
     """Application entry function"""
     arg_parser = argparse.ArgumentParser(description="Cobertura Console Reporter")
+
+    arg_parser.add_argument(
+        "--version",
+        action="version",
+        version=f"%(prog)s {_get_version()}",
+    )
     arg_parser.add_argument(
         "--coverage-file",
         "-f",

@@ -1,0 +1,20 @@
+[build-system]
+requires = ["setuptools>=68", "wheel", "setuptools-scm>=8"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "cobertura-console-reporter"
+dynamic = ["version"]
+description = "Cobertura Console Reporter"
+readme = "README.md"
+requires-python = ">=3.9"
+dependencies = ["colorama"]
+
+[project.scripts]
+ccr = "cobertura_console_reporter.__main__:main"
+
+[tool.setuptools]
+packages = ["cobertura_console_reporter"]
+
+[tool.setuptools_scm]
+tag_regex = "^(?:v|V)?(?P<version>\\d+\\.\\d+\\.\\d+(?:\\.\\d+)?)$"

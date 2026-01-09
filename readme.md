@@ -177,3 +177,7 @@ may need to install Python enabling shared libraries:
 ```bash
 env PYTHON_CONFIGURE_OPTS="--enable-shared" pyenv install 3.9.9
 ```
+
+You may also need to install the following packages in addition to Python in a Linux environment:
+- python-is-python3
+- python3-venv

@@ -65,5 +65,6 @@ echo -e "${GREEN}Python virtual environment activated.${NC}"
 # **************************************************************************************
 python -m pip install --upgrade pip > /dev/null 2>&1
 pip install -r "${ROOT_DIR}/requirements-dev.txt" > /dev/null 2>&1
+pip install -e "$ROOT_DIR" > /dev/null 2>&1 # for metadata
 
 echo -e "${GREEN}Python development dependencies installed.${NC}"
