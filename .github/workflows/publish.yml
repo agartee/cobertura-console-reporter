@@ -30,7 +30,7 @@ jobs:
       - name: Build
         run: |
           source ./scripts/bootstrap.sh
-          ./scripts/build.sh
+          ./scripts/build.sh --version "${GITHUB_REF_NAME}"
         shell: bash
 
       - name: Archive assets
@@ -60,7 +60,7 @@ jobs:
       - name: Build
         run: |
           source ./scripts/bootstrap.sh
-          ./scripts/build.sh
+          ./scripts/build.sh --version "${GITHUB_REF_NAME}"
         shell: bash
 
       - name: Archive assets
@@ -90,7 +90,7 @@ jobs:
       - name: Build
         run: |
           ./scripts/bootstrap.ps1
-          ./scripts/build.ps1
+          ./scripts/build.ps1 -Version "${GITHUB_REF_NAME}"
         shell: pwsh
 
       - name: Archive assets
