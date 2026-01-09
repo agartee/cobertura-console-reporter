@@ -28,7 +28,7 @@ def format_coverage_items(
         if config.colorize:
             return f"{Fore.RED}No Coverage{Style.RESET_ALL}\n"
         return "No Coverage\n"
-    
+
     reset_color_val = Style.RESET_ALL if config.colorize is True else ""
     class_name_length = _calc_class_name_length(coverage_items)
 

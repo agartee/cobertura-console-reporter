@@ -1,3 +1,4 @@
+import pytest
 import textwrap
 
 from colorama import Fore, Style
@@ -209,7 +210,13 @@ def test_format_coverage_items_when_no_branches_returns_formatted_string():
 
     assert result == textwrap.dedent(expected)
 
-
+@pytest.mark.parametrize(
+    ("colorize", "expected"),
+    [
+        (True, f"{Fore.RED}No Coverage{Style.RESET_ALL}\n"),
+        (False, "No Coverage\n"),
+    ],
+)
 def test_format_coverage_items_when_items_is_empty_returns_empty_table():
     items = []
 
